@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en-us">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>js调用cpp函数例子</title>
+</head>
+
+<body>
+    <button onclick="run2()">直接调用</button>
+    <div id="log">
+    </div>
+    <script type='text/javascript'>
+
+        var importObject = {
+            imports: {
+                imported_func: function (arg) {
+                    console.log(arg);
+                }
+            }
+        };
+        function run2() {
+            var importObject = { imports: { imported_func: arg => console.log(arg) } };
+
+            WebAssembly.instantiateStreaming(fetch('simple.wasm'), importObject)
+                .then(obj => obj.instance.exports.exported_func());
+        }
+    </script>
+</body>
+
+</html>
